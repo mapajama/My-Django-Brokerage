@@ -56,18 +56,22 @@ class ClassDef(models.Model):
             ('N', 'NO'),
         )
 
-        gender = models.CharField(max_length=1, choices=POLICY_CHOICES)
+        schedule = models.CharField(max_length=1, choices=POLICY_CHOICES)
 
-    class Person(models.Model):
-        COUNTRY_CHOICES = (
-            ('A', 'United States'),
-            ('B', 'United Kingdom'),
-            ('C', 'Canada'),
-            ('D', 'Australia'),
+    class AvailableClasses(models.Model):
+        AVAILABLE_CLASSES = (
+            ('A', 'MOTOR'),
+            ('B', 'FIRE AND BURGLAR'),
+            ('C', 'FIRE AND SPECIAL PERIL'),
+            ('D', 'MARINE CARGO'),
+            ('E', 'MARINE HULL'),
+            ('F', 'TERRORISM'),
+            ('G', 'LIFE'),
+            ('H', 'OTHERS'),
         )
 
-        name = models.CharField(max_length=50)
-        country = models.CharField(max_length=2, choices=COUNTRY_CHOICES)
+        classes = models.CharField(max_length=50)
+        available = models.CharField(max_length=2, choices=AVAILABLE_CLASSES)
 
         def __str__(self):
-            return self.name
+            return self.class_of_Business

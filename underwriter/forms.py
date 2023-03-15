@@ -1,5 +1,5 @@
 from django import forms
-from .models import Underwriter, Client
+from .models import Underwriter, Client, ClassDef
 
 
 class UnderwriterForm(forms.ModelForm):
@@ -27,3 +27,13 @@ class ClientForm(forms.ModelForm):
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
             'address': forms.TextInput(attrs={'class': 'form-control'}),
          }
+
+
+class ClassDefForm(forms.ModelForm):
+    class Meta:
+        model = ClassDef
+        fields = ('class_of_Business', 'percentage_of_brokerage')
+        widgets = {
+            'class_of_Business': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter class'}),
+            'percentage_of_brokerage': forms.NumberInput(attrs={'class': 'form-control'}),
+        }

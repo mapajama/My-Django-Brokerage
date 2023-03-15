@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Underwriter, Client
-from .forms import UnderwriterForm, ClientForm
+from .models import Underwriter, Client, ClassDef
+from .forms import UnderwriterForm, ClientForm, ClassDefForm
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
@@ -128,3 +128,67 @@ class ClientDeleteView(DeleteView):
     model = Client
     success_url = reverse_lazy('client_list')
     template_name = 'client_confirm_delete.html'
+
+
+def class_def_view(request):
+    # Retrieve all ClassDef objects from the database
+    class_defs = ClassDef.objects.all()
+
+    # Render the template with the retrieved ClassDef objects
+    return render(request, 'class_def.html', {'class_defs': class_defs})
+
+
+def classdef_create(request):
+    form = ClassDefForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('classdef_list')
+    return render(request, 'classdef_create.html', {'form': form})
+
+
+def classdef_update(request, pk):
+    classdef = ClassDef.objects.get(pk=pk)
+    form = ClassDefForm(request.POST or None, instance=classdef)
+    if form.is_valid():
+        form.save()
+        return redirect('classdef_list')
+    return render(request, 'classdef_update.html', {'form': form})
+
+
+def classdef_delete(request, pk):
+    classdef = ClassDef.objects.get(pk=pk)
+    if request.method == 'POST':
+        classdef.delete()
+        return redirect('classdef_list')
+    return render(request, 'classdef_delete.html', {'classdef': classdef})
+
+
+def classdef_list(request):
+    classdefs = ClassDef.objects.all()
+    return render(request, "classdef_list.html", {'classdefs': classdefs})
+
+
+class ClassDefListView(ListView):
+    model = ClassDef
+    template_name = 'classdef_list.html'
+    context_object_name = 'classdefs'
+
+
+class ClassDefCreateView(CreateView):
+    model = ClassDef
+    form_class = ClassDefForm
+    template_name = 'classdef_create.html'
+    success_url = reverse_lazy('classdef_list')
+
+
+class ClassDefUpdateView(UpdateView):
+    model = ClassDef
+    form_class = ClassDefForm
+    template_name = 'classdef_update.html'
+    success_url = reverse_lazy('classdef_list')
+
+
+class ClassDefDeleteView(DeleteView):
+    model = ClassDef
+    template_name = 'classdef_delete.html'
+    success_url = reverse_lazy('classdef_list')

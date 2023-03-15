@@ -10,4 +10,8 @@ urlpatterns = [
     path('create_list', views.ClientCreateView.as_view(), name='client_create'),
     path('<int:pk>/update/', views.ClientUpdateView.as_view(), name='client_update'),
     path('<int:pk>/delete/', views.ClientDeleteView.as_view(), name='client_delete'),
+    path('class-list', views.ClassDefListView.as_view(), name='classdef_list'),
+    path('class-create', views.ClassDefCreateView.as_view(), name='classdef_create'),
+    path('<int:pk>/update/', views.ClassDefUpdateView.as_view(), name='classdef_update'),
+    path('<int:pk>/delete/', views.ClassDefDeleteView.as_view(), name='classdef_delete'),
 ]
